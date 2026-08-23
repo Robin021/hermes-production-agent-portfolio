@@ -1,52 +1,62 @@
 # assets/
 
-Visual material for this repository: the architecture diagram exports and the stills taken
-from the demo recording.
+Three diagrams, each written to answer one buyer question in the time it takes to look at it.
+Committed as SVG (the source of truth, hand-authored, diffable) and as a 2x PNG for slides,
+proposals and anywhere Markdown rendering of SVG is unreliable.
 
-**Nothing is committed here yet.** The diagrams in [docs/ARCHITECTURE.md](../docs/ARCHITECTURE.md)
-render from source in the Markdown itself, so they stay correct when the text changes and need
-no binary here. Image exports are produced on request for a proposal or a slide deck.
-
-## What belongs here
-
-| File | Purpose |
+| File | The question it answers |
 |---|---|
-| `architecture.svg` / `architecture.png` | Rendered export of the trust-boundary diagram, for slides and proposals |
-| `approval-flow.svg` | The request to decision to execution sequence, rendered |
-| `demo-thumbnail.png` | Opening frame of the walkthrough video |
-| `demo-case-b.png` | The injection case: the attacker address in the body, absent from the envelope |
-| `demo-approval.png` | The operator prompt, with the identical before and after digests |
-| `demo.gif` | Short loop of one case, for a profile or a listing page |
+| `workflow.svg` / `.png` | *What actually happens to an incoming email?* Both paths side by side: the low-risk path ending in an unsent draft, and the high-risk path stopping at a human. |
+| `separation-of-duties.svg` / `.png` | *If one credential leaks, what can the attacker do?* A capability matrix over seven principals, showing which verbs each one does not have. |
+| `approval-execution-flow.svg` / `.png` | *Does approving a refund issue the refund?* No. The diagram names the gap between authorization and action and explains why nothing closes it automatically. |
 
-Prefer SVG for diagrams and PNG for screen captures. Keep each file under about 2 MB so the
-repository stays quick to clone.
+The Mermaid sources in [docs/ARCHITECTURE.md](../docs/ARCHITECTURE.md) stay authoritative for
+the component-level view; they render inline and cannot drift from the surrounding text. These
+three files exist because a matrix and a swimlane are worth hand-setting, and because a buyer
+skimming a page looks at pictures first.
+
+## Regenerating the PNGs
+
+The PNGs are exports, not originals. Edit the SVG, then re-export at 2x with any headless
+browser:
+
+```
+chrome-headless-shell --headless --disable-gpu --hide-scrollbars \
+  --force-device-scale-factor=2 --window-size=<W>,<H> \
+  --screenshot=assets/<name>.png file://$PWD/assets/<name>.svg
+```
+
+Sizes match each file's `viewBox`: workflow 1400x640, separation-of-duties 1400x780,
+approval-execution-flow 1500x890. Any SVG renderer works; the diagrams use no external
+fonts beyond a system sans-serif fallback chain and no embedded raster data.
 
 ## The rule every file here has to pass
 
-An image leaks what text review would have caught, because nobody greps a screenshot. The
-redaction checklist in [docs/DEMO.md](../docs/DEMO.md) applies to every frame committed here,
-and it reduces to one line:
+These three diagrams are drawn rather than captured, so there is nothing in them to leak.
+That is deliberate: **no screen capture of a real mailbox, terminal or chat client is
+committed to this repository.** Every label is either a synthetic identifier or a role
+described by function.
 
-> If a frame contains an address, a path, a key, an id or a hostname that a stranger could type
-> somewhere, it does not get published.
+If a screen capture is ever added, it has to survive the checklist below first, which is the
+same one in [docs/DEMO.md](../docs/DEMO.md) and reduces to one line:
 
-In practice, before a capture is added:
+> If a frame contains an address, a path, a key, an id or a hostname that a stranger could
+> type somewhere, it does not get published.
 
 | Check | What to do |
 |---|---|
 | Shell prompt | Reduced to a bare symbol - no user, no host, no working directory |
 | Window title and tab bar | Cropped out, since both carry paths and account names |
 | Mail account chip | Collapsed; avatar and address out of frame |
-| Message, thread and draft identifiers | Blurred, or replaced with the placeholders used throughout `examples/` |
+| Message, thread and draft identifiers | Replaced with the placeholders used throughout `examples/` |
 | Operator channel header | Cropped - the bot name and chat id live there |
 | Connection strings, config files, environment listings | Never on screen at all |
 | Desktop notifications, unrelated tabs, other mailbox folders | Clean profile, notifications off before recording |
 
-Blur is a last resort rather than the plan. Compose the frame so the sensitive region is never
-captured, because a blur applied to a screenshot can sometimes be undone and a crop cannot.
-
-One more, easy to forget: strip image metadata before committing. A screenshot can carry a
-device name, a username in a file path, and occasionally a location.
+Blur is a last resort rather than the plan. Compose the frame so the sensitive region is
+never captured, because a blur applied to a screenshot can sometimes be undone and a crop
+cannot. And strip image metadata before committing - a screenshot can carry a device name, a
+username inside a file path, and occasionally a location.
 
 ---
 

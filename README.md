@@ -10,6 +10,8 @@ Anything that changes business state — a refund, an order cancellation, a subs
 cancellation — stops and waits for a human. And approving the action **still does not
 perform the write**.
 
+![Two paths through the system: the low-risk path ends in an unsent draft, the high-risk path stops at a human approval that still does not perform the write](assets/workflow.png)
+
 ---
 
 ## The problem
@@ -58,6 +60,8 @@ The organising principle:
 
 > **An agent is not safe because it was instructed to behave.**
 > **It is safe because the unsafe action is unrepresentable.**
+
+![A capability matrix over seven database principals, showing which verbs each one is denied](assets/separation-of-duties.png)
 
 Full control-by-control breakdown: [docs/SECURITY.md](docs/SECURITY.md)
 
@@ -126,6 +130,7 @@ confidential in a public issue on this repository.
 | [docs/DEMO.md](docs/DEMO.md) | What the demo shows, step by step |
 | [docs/SERVICE_OFFERINGS.md](docs/SERVICE_OFFERINGS.md) | Three engagement models |
 | [examples/](examples/) | Synthetic input and output samples — email, approval, execution result, audit trail |
+| [assets/](assets/) | The three diagrams above, as SVG source and 2x PNG exports |
 
 ## Scope and honesty
 

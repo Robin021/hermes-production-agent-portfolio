@@ -3,6 +3,13 @@
 For a technical evaluator. No project history, no sprint numbering — the system as it
 stands, and the reasoning behind each boundary.
 
+![Two paths through the system: the low-risk path ends in an unsent draft, the high-risk path stops at a human approval that still does not perform the write](../assets/workflow.png)
+
+Three diagrams summarise what the sections below argue in detail: the request flow above, the
+[privilege matrix](../assets/separation-of-duties.png) in §7, and the
+[approval-to-execution gap](../assets/approval-execution-flow.png) in §6. SVG sources are in
+[assets/](../assets/).
+
 ---
 
 ## 1. What the system is
@@ -175,6 +182,8 @@ property rather than a budget alarm.
 
 ## 6. Approval, and why it is not execution
 
+![The high-risk path in time order, with a marked gap between the recorded approval decision and the separate operator action that performs the write](../assets/approval-execution-flow.png)
+
 A high-risk intent produces an approval request carrying an **immutable snapshot** of the
 entity state, a canonical-JSON sha256 of that snapshot, and a TTL.
 
@@ -203,6 +212,8 @@ actually authorizes and nothing else — so an unrelated mutation such as changi
 address is not blocked by a check, it is **unrepresentable**: no function accepts one.
 
 ## 7. Privilege model
+
+![A capability matrix over seven database principals, showing which verbs each one is denied](../assets/separation-of-duties.png)
 
 ```mermaid
 flowchart LR
