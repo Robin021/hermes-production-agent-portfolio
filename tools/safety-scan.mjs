@@ -59,6 +59,12 @@ const RULES = [
 // route anywhere and are the synthetic identifiers used throughout the repo.
 const ALLOWED_MAIL = new Set(["customer@example.com", "support@example-shop.test", "attacker@evil.invalid"]);
 
+// The one place the author's handle is intentional: a public portfolio has to name a way to
+// reach its author, and the GitHub profile is the only contact surface published here. It is a
+// handle on the same site as the repository, not an operational identifier. Anything wider --
+// a personal address, a hostname, a path containing the username -- still fails.
+const ALLOWED_IDENTITY = ["https://github.com/Robin021"];
+
 let findings = 0, scanned = 0;
 const note = (file, rule, hit) => { findings++; console.log("  FAIL  " + rule + "  " + relative(ROOT, file) + "  :: " + hit); };
 
@@ -79,15 +85,18 @@ for (const file of walk(ROOT)) {
   }
 
   const text = stripB64(readFileSync(file, "utf8"));
+  // Remove the sanctioned profile link before matching, so the handle inside it cannot
+  // mask a genuine leak of the same string elsewhere in the file.
+  const body = ALLOWED_IDENTITY.reduce((s, allowed) => s.split(allowed).join("<PROFILE_LINK>"), text);
   for (const [rule, re] of RULES) {
-    for (const m of text.match(re) || []) {
+    for (const m of body.match(re) || []) {
       // business_rows_written contains business_ro as a substring; that is a
       // column name in a synthetic audit record, not a role grant.
-      if (/business_ro/.test(m) && /business_rows/.test(text)) continue;
+      if (/business_ro/.test(m) && /business_rows/.test(body)) continue;
       note(file, rule, m.trim().slice(0, 60));
     }
   }
-  for (const addr of text.match(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g) || []) {
+  for (const addr of body.match(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g) || []) {
     if (!ALLOWED_MAIL.has(addr)) note(file, "unrecognized address", addr);
   }
 }

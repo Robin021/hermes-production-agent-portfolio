@@ -112,6 +112,11 @@ true, and the suite runs as one chain:
 Three defects worth reading about — each found by measurement rather than by review, and
 each of a kind a demo would never surface: [docs/CASE_STUDY.md](docs/CASE_STUDY.md#5-three-findings-a-demo-would-never-have-produced)
 
+**Built with** Python and PostgreSQL on a single hardened Linux host, with a self-hosted agent
+runtime, MCP tool servers, and a chat plus CLI operator surface. Deliberately boring
+infrastructure your own team can run: no managed agent platform, no vendor lock-in, and no
+component that cannot be restarted by someone reading a runbook.
+
 ## How to engage
 
 | | Engagement | Best for | Starting at |
@@ -125,10 +130,14 @@ usually be scoped directly. In every case the tests are part of the deliverable 
 phase that gets cut. Scope, deliverables and exclusions:
 [docs/SERVICE_OFFERINGS.md](docs/SERVICE_OFFERINGS.md)
 
-**To start a conversation:** contact me through the profile linked here. A 30-minute call is
-enough to tell you whether your use case fits this architecture — including if the honest
-answer is that it does not. Please do not put system details, credentials or anything
-confidential in a public issue on this repository.
+**To start a conversation:** message me through my
+[GitHub profile](https://github.com/Robin021) and a 30-minute call is enough to tell you
+whether your use case fits this architecture — including if the honest answer is that it does
+not. Useful things to bring: where your order or account data lives, roughly how much support
+volume you handle, and which actions you would never let software take unsupervised.
+
+Please do not put system details, credentials or anything confidential in a public issue on
+this repository.
 
 ---
 
@@ -144,6 +153,7 @@ confidential in a public issue on this repository.
 | [docs/SERVICE_OFFERINGS.md](docs/SERVICE_OFFERINGS.md) | Three engagement models |
 | [examples/](examples/) | Synthetic input and output samples — email, approval, execution result, audit trail |
 | [assets/](assets/) | The three diagrams above, as SVG source and 2x PNG exports |
+| [LICENSE.md](LICENSE.md) | CC BY 4.0 for the documents and video; MIT for the build tooling |
 
 ## Scope and honesty
 
