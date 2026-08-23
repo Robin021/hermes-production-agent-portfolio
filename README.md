@@ -12,6 +12,18 @@ perform the write**.
 
 ![Two paths through the system: the low-risk path ends in an unsent draft, the high-risk path stops at a human approval that still does not perform the write](assets/workflow.png)
 
+**Watch it instead of reading it** — 90 seconds, no audio needed, every claim legible on screen:
+
+[![Play the 90-second demo: an AI agent that can draft the reply but cannot send it](assets/demo/poster-short.png)](assets/demo/hermes-agent-demo-short.mp4)
+
+| | Length | For | File |
+|---|---|---|---|
+| **Short cut** | 1:30 | Deciding whether this is relevant to you | [hermes-agent-demo-short.mp4](assets/demo/hermes-agent-demo-short.mp4) |
+| **Technical cut** | 4:12 | *How is that enforced?* — mechanism shown next to each claim | [hermes-agent-demo-technical.mp4](assets/demo/hermes-agent-demo-technical.mp4) |
+
+Both are silent by design and carry burned-in captions plus `.srt`/`.vtt` subtitles. Frame-by-frame
+scripts: [short](docs/DEMO_SHORT_SCRIPT.md) · [technical](docs/DEMO_TECHNICAL_SCRIPT.md).
+
 ---
 
 ## The problem
@@ -128,6 +140,7 @@ confidential in a public issue on this repository.
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | System design for a technical evaluator |
 | [docs/SECURITY.md](docs/SECURITY.md) | Every control, what it prevents, and the test that proves it |
 | [docs/DEMO.md](docs/DEMO.md) | What the demo shows, step by step |
+| [assets/demo/](assets/demo/) | Both demo videos, subtitles, frame-by-frame timelines, and the one-command renderer that rebuilds them |
 | [docs/SERVICE_OFFERINGS.md](docs/SERVICE_OFFERINGS.md) | Three engagement models |
 | [examples/](examples/) | Synthetic input and output samples — email, approval, execution result, audit trail |
 | [assets/](assets/) | The three diagrams above, as SVG source and 2x PNG exports |

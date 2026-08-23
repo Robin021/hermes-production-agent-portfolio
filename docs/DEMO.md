@@ -182,10 +182,14 @@ playback:
 
 ## What is deliberately kept off screen
 
-The recording is produced under a redaction checklist. Nothing in the following list appears in
-any frame:
+The two published cuts contain **no screen capture at all**. Every frame is hand-authored vector
+artwork rendered from [assets/demo/build/](../assets/demo/build/), so there is nothing in them to
+redact — a mailbox, a terminal and a chat client are *depicted*, never photographed.
 
-| Category | Handling |
+The checklist below therefore applies to a **live walkthrough**: the private technical session run
+for a qualified buyer, where a real screen is shared. Nothing in this list may appear in it:
+
+| Category | Handling in a live walkthrough |
 |---|---|
 | Host address or hostname | Shell prompt reduced to a bare symbol; no command that prints the host |
 | Connection commands | The session is established before recording starts |

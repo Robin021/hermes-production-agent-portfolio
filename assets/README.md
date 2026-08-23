@@ -15,6 +15,21 @@ the component-level view; they render inline and cannot drift from the surroundi
 three files exist because a matrix and a swimlane are worth hand-setting, and because a buyer
 skimming a page looks at pictures first.
 
+## demo/
+
+Two silent, caption-burned cuts of the same walkthrough, plus everything needed to rebuild them:
+
+| File | What it is |
+|---|---|
+| `demo/hermes-agent-demo-short.mp4` | 90 s, 1920x1080, 30 fps. The version a buyer watches before deciding whether to keep reading. |
+| `demo/hermes-agent-demo-technical.mp4` | 252 s. Same arc, with the enforcement mechanism shown beside each claim. |
+| `demo/poster-short.png` / `poster-technical.png` | Single-frame stills, used as the clickable thumbnails in the top-level README. |
+| `demo/*.srt` / `demo/*.vtt` | Subtitles in both common formats. The videos carry no audio track at all, so captions are the only narration. |
+| `demo/*.timeline.json` | The single source of truth for scene order and timing. Frames, subtitles and video all derive from it. |
+| `demo/build/` | Scene definitions, hand-authored SVG frames, and `build.sh` — one command reproduces both MP4s byte for byte. See [demo/build/README.md](demo/build/README.md). |
+
+Same rule as the diagrams, for the same reason: **every frame is drawn, not captured.**
+
 ## Regenerating the PNGs
 
 The PNGs are exports, not originals. Edit the SVG, then re-export at 2x with any headless
