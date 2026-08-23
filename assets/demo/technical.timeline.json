@@ -1,0 +1,161 @@
+{
+  "name": "technical",
+  "total_seconds": 252,
+  "frame_count": 19,
+  "generated_by": "assets/demo/build/render.mjs",
+  "note": "Hand-authored vector frames from synthetic fixtures. No screen capture, no real identifiers.",
+  "scenes": [
+    {
+      "id": "T01",
+      "start": 0,
+      "duration": 8,
+      "type": "title",
+      "label": "opening",
+      "caption": "2,627 assertions. 0 failures. 0 emails sent."
+    },
+    {
+      "id": "T02",
+      "start": 8,
+      "duration": 12,
+      "type": "diagram",
+      "label": "the shape of it",
+      "caption": "Low risk ends in an unsent draft. High risk ends at a human."
+    },
+    {
+      "id": "T03",
+      "start": 20,
+      "duration": 14,
+      "type": "table",
+      "label": "the tool boundary",
+      "caption": "The agent has four read tools and one way to open a case. No write verb exists in its interface."
+    },
+    {
+      "id": "T04",
+      "start": 34,
+      "duration": 12,
+      "type": "terminal",
+      "label": "case A · the normal path",
+      "caption": "One named message in, one grounded draft out, in the original thread."
+    },
+    {
+      "id": "T05",
+      "start": 46,
+      "duration": 12,
+      "type": "split",
+      "label": "case A · non-mutation, asserted",
+      "caption": "Mailbox state before and after: identical. The only new object anywhere is one draft."
+    },
+    {
+      "id": "T06",
+      "start": 58,
+      "duration": 14,
+      "type": "mailBody",
+      "label": "case B · the hostile input",
+      "caption": "Now the hostile version: three header-injection attempts and an exfiltration instruction."
+    },
+    {
+      "id": "T07",
+      "start": 72,
+      "duration": 16,
+      "type": "draftView",
+      "label": "case B · the result",
+      "caption": "Recipient unchanged. No CC, no BCC, no Reply-To, no smuggled header."
+    },
+    {
+      "id": "T08",
+      "start": 88,
+      "duration": 12,
+      "type": "quote",
+      "label": "case B · the suite",
+      "caption": "Five attack shapes, 165 assertions, zero model calls. The attack surface is structurally absent."
+    },
+    {
+      "id": "T09",
+      "start": 100,
+      "duration": 12,
+      "type": "terminal",
+      "label": "a real defect, found in my own system",
+      "caption": "When grounding fails, the run fails. Zero drafts created — asserted, permanently."
+    },
+    {
+      "id": "T10",
+      "start": 112,
+      "duration": 14,
+      "type": "table",
+      "label": "deterministic policy",
+      "caption": "Risk classification is deterministic. The model never decides what is allowed."
+    },
+    {
+      "id": "T11",
+      "start": 126,
+      "duration": 14,
+      "type": "chat",
+      "label": "the approval is a record",
+      "caption": "The approval is a record: action, target, amount, snapshot hash, expiry."
+    },
+    {
+      "id": "T12",
+      "start": 140,
+      "duration": 16,
+      "type": "diagram",
+      "label": "approve ≠ execute",
+      "caption": "Approval recorded. Business state byte-identical. Approving is not executing."
+    },
+    {
+      "id": "T13",
+      "start": 156,
+      "duration": 16,
+      "type": "terminal",
+      "label": "execution",
+      "caption": "Execution is a separate command under a separate login, re-validated inside the transaction."
+    },
+    {
+      "id": "T14",
+      "start": 172,
+      "duration": 12,
+      "type": "quote",
+      "label": "idempotency",
+      "caption": "Twenty concurrent passes, still exactly one draft. Guaranteed by a unique index."
+    },
+    {
+      "id": "T15",
+      "start": 184,
+      "duration": 16,
+      "type": "diagram",
+      "label": "least privilege, proven",
+      "caption": "327 privilege assertions, seven principals, real SQL under real logins."
+    },
+    {
+      "id": "T16",
+      "start": 200,
+      "duration": 14,
+      "type": "split",
+      "label": "two roles pointing in opposite directions",
+      "caption": "The mail runtime can open an approval and cannot decide one. The approval runtime is the reverse."
+    },
+    {
+      "id": "T17",
+      "start": 214,
+      "duration": 14,
+      "type": "quote",
+      "label": "the bug worth showing",
+      "caption": "The bug worth showing: a restored database granted EXECUTE to PUBLIC. Found by a probe, not a review."
+    },
+    {
+      "id": "T18",
+      "start": 228,
+      "duration": 12,
+      "type": "split",
+      "label": "the honest part",
+      "caption": "The provider offers no draft-only scope. What is proven is that no code path can express a send."
+    },
+    {
+      "id": "T19",
+      "start": 240,
+      "duration": 12,
+      "type": "closing",
+      "label": "close",
+      "caption": "AI can reason. It cannot authorize itself, and it cannot write."
+    }
+  ]
+}

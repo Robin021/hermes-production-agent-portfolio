@@ -1,0 +1,113 @@
+{
+  "name": "short",
+  "total_seconds": 90,
+  "frame_count": 13,
+  "generated_by": "assets/demo/build/render.mjs",
+  "note": "Hand-authored vector frames from synthetic fixtures. No screen capture, no real identifiers.",
+  "scenes": [
+    {
+      "id": "S01",
+      "start": 0,
+      "duration": 6,
+      "type": "title",
+      "label": "opening",
+      "caption": "An AI agent that can draft a customer reply — and cannot send it."
+    },
+    {
+      "id": "S02",
+      "start": 6,
+      "duration": 4,
+      "type": "mailList",
+      "label": "case A · a request arrives",
+      "caption": "A support request arrives. Ordinary, low risk, no money involved."
+    },
+    {
+      "id": "S03",
+      "start": 10,
+      "duration": 6,
+      "type": "terminal",
+      "label": "case A · the agent reads",
+      "caption": "The agent reads one named message and looks up the order through a typed, read-only tool."
+    },
+    {
+      "id": "S04",
+      "start": 16,
+      "duration": 4,
+      "type": "table",
+      "label": "case A · evidence",
+      "caption": "The reply is grounded in a record. No record, no claim — the run fails closed instead."
+    },
+    {
+      "id": "S05",
+      "start": 20,
+      "duration": 6,
+      "type": "draftView",
+      "label": "case A · the output",
+      "caption": "A draft appears in the original thread, addressed to the person who wrote in. Nothing is sent."
+    },
+    {
+      "id": "S06",
+      "start": 26,
+      "duration": 4,
+      "type": "split",
+      "label": "case A · nothing changed",
+      "caption": "Reading mutated nothing: same labels, still unread, zero sends."
+    },
+    {
+      "id": "S07",
+      "start": 30,
+      "duration": 8,
+      "type": "mailList",
+      "label": "case D · now it touches money",
+      "caption": "Now a request that would move money."
+    },
+    {
+      "id": "S08",
+      "start": 38,
+      "duration": 7,
+      "type": "terminal",
+      "label": "case D · it stops",
+      "caption": "The agent stops at awaiting_approval and writes no business row. It never had the permission to."
+    },
+    {
+      "id": "S09",
+      "start": 45,
+      "duration": 10,
+      "type": "chat",
+      "label": "case D · a human decides",
+      "caption": "A human decides, in a channel with no model in it."
+    },
+    {
+      "id": "S10",
+      "start": 55,
+      "duration": 10,
+      "type": "split",
+      "label": "the part most designs get wrong",
+      "caption": "The approval is recorded — and business state is byte-identical. Approving is not executing."
+    },
+    {
+      "id": "S11",
+      "start": 65,
+      "duration": 10,
+      "type": "terminal",
+      "label": "a second, explicit act",
+      "caption": "Execution is a separate, explicit command under a separate login."
+    },
+    {
+      "id": "S12",
+      "start": 75,
+      "duration": 9,
+      "type": "chat",
+      "label": "one write, then a report",
+      "caption": "One write. One outcome notification. Replaying the command changes nothing further."
+    },
+    {
+      "id": "S13",
+      "start": 84,
+      "duration": 6,
+      "type": "closing",
+      "label": "close",
+      "caption": "AI can reason. It cannot authorize itself, and it cannot write."
+    }
+  ]
+}

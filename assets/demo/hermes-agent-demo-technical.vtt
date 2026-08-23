@@ -1,0 +1,95 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:08.000
+2,627 assertions. 0 failures. 0 emails sent.
+
+2
+00:00:08.000 --> 00:00:20.000
+Low risk ends in an unsent draft. High risk ends at a
+human.
+
+3
+00:00:20.000 --> 00:00:34.000
+The agent has four read tools and one way to open a
+case. No write verb exists in its interface.
+
+4
+00:00:34.000 --> 00:00:46.000
+One named message in, one grounded draft out, in the
+original thread.
+
+5
+00:00:46.000 --> 00:00:58.000
+Mailbox state before and after: identical. The only new
+object anywhere is one draft.
+
+6
+00:00:58.000 --> 00:01:12.000
+Now the hostile version: three header-injection attempts
+and an exfiltration instruction.
+
+7
+00:01:12.000 --> 00:01:28.000
+Recipient unchanged. No CC, no BCC, no Reply-To, no
+smuggled header.
+
+8
+00:01:28.000 --> 00:01:40.000
+Five attack shapes, 165 assertions, zero model calls.
+The attack surface is structurally absent.
+
+9
+00:01:40.000 --> 00:01:52.000
+When grounding fails, the run fails. Zero drafts created
+— asserted, permanently.
+
+10
+00:01:52.000 --> 00:02:06.000
+Risk classification is deterministic. The model never
+decides what is allowed.
+
+11
+00:02:06.000 --> 00:02:20.000
+The approval is a record: action, target, amount,
+snapshot hash, expiry.
+
+12
+00:02:20.000 --> 00:02:36.000
+Approval recorded. Business state byte-identical.
+Approving is not executing.
+
+13
+00:02:36.000 --> 00:02:52.000
+Execution is a separate command under a separate login,
+re-validated inside the transaction.
+
+14
+00:02:52.000 --> 00:03:04.000
+Twenty concurrent passes, still exactly one draft.
+Guaranteed by a unique index.
+
+15
+00:03:04.000 --> 00:03:20.000
+327 privilege assertions, seven principals, real SQL
+under real logins.
+
+16
+00:03:20.000 --> 00:03:34.000
+The mail runtime can open an approval and cannot decide
+one. The approval runtime is the reverse.
+
+17
+00:03:34.000 --> 00:03:48.000
+The bug worth showing: a restored database granted
+EXECUTE to PUBLIC. Found by a probe, not a review.
+
+18
+00:03:48.000 --> 00:04:00.000
+The provider offers no draft-only scope. What is proven
+is that no code path can express a send.
+
+19
+00:04:00.000 --> 00:04:12.000
+AI can reason. It cannot authorize itself, and it cannot
+write.

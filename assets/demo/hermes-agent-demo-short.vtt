@@ -1,0 +1,64 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:06.000
+An AI agent that can draft a customer reply — and cannot
+send it.
+
+2
+00:00:06.000 --> 00:00:10.000
+A support request arrives. Ordinary, low risk, no money
+involved.
+
+3
+00:00:10.000 --> 00:00:16.000
+The agent reads one named message and looks up the order
+through a typed, read-only tool.
+
+4
+00:00:16.000 --> 00:00:20.000
+The reply is grounded in a record. No record, no claim —
+the run fails closed instead.
+
+5
+00:00:20.000 --> 00:00:26.000
+A draft appears in the original thread, addressed to the
+person who wrote in. Nothing is sent.
+
+6
+00:00:26.000 --> 00:00:30.000
+Reading mutated nothing: same labels, still unread, zero
+sends.
+
+7
+00:00:30.000 --> 00:00:38.000
+Now a request that would move money.
+
+8
+00:00:38.000 --> 00:00:45.000
+The agent stops at awaiting_approval and writes no
+business row. It never had the permission to.
+
+9
+00:00:45.000 --> 00:00:55.000
+A human decides, in a channel with no model in it.
+
+10
+00:00:55.000 --> 00:01:05.000
+The approval is recorded — and business state is
+byte-identical. Approving is not executing.
+
+11
+00:01:05.000 --> 00:01:15.000
+Execution is a separate, explicit command under a
+separate login.
+
+12
+00:01:15.000 --> 00:01:24.000
+One write. One outcome notification. Replaying the
+command changes nothing further.
+
+13
+00:01:24.000 --> 00:01:30.000
+AI can reason. It cannot authorize itself, and it cannot
+write.
