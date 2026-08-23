@@ -1,0 +1,357 @@
+{
+  "_comment": [
+    "A sanitized audit trail for one end-to-end case: an inbound refund request that was",
+    "acknowledged by draft, escalated to a human, approved, executed by hand under a",
+    "separate credential, and reported back to the operator after commit.",
+    "Every identifier, timestamp and hash on this page is synthetic. The column set, the actor",
+    "convention and the metadata shapes are those of the real control-plane table:",
+    "audit_event(event_id, task_id, run_id, event_type, actor, created_at, metadata).",
+    "Provider-specific event names are generalised here - the implementation names its mail",
+    "events after the provider it is bound to; the shape is unchanged.",
+    "The table is append-only by privilege - the writing role holds INSERT and has no UPDATE",
+    "and no DELETE - so a correction is a new row and history is never rewritten.",
+    "metadata is a bounded summary: long strings are truncated and secret-shaped keys and",
+    "values are redacted before the row is written, so no token, connection string or full",
+    "tool response can ever reach this table."
+  ],
+
+  "case": {
+    "story": "Refund request for order SO-1004 - see examples/synthetic-approval.md",
+    "task_id": "<TASK_ID>",
+    "run_id": "<RUN_ID>",
+    "correlation_id": "<CORRELATION_ID>",
+    "events": 17,
+    "business_rows_written_before_human_approval": 0,
+    "business_rows_written_in_total": 1,
+    "emails_sent": 0
+  },
+
+  "audit_event": [
+
+    {
+      "_stage": "1. the message is read - a GET, nothing is mutated in the mailbox",
+      "event_id": "<EVENT_ID_01>",
+      "task_id": null,
+      "run_id": null,
+      "event_type": "mail_message_read",
+      "actor": "mail_workflow",
+      "created_at": "2026-03-05T10:40:51.204Z",
+      "metadata": {
+        "message_id": "<MESSAGE_ID_D>",
+        "thread_id": "<THREAD_ID_D>",
+        "body_length": 218,
+        "has_attachments": false,
+        "attachment_names": [],
+        "body_from_html": false,
+        "quoted_trimmed": false
+      }
+    },
+
+    {
+      "_stage": "2. the attempt is claimed and COMMITTED before any provider write - this row is what crash reconciliation searches for",
+      "event_id": "<EVENT_ID_02>",
+      "task_id": null,
+      "run_id": null,
+      "event_type": "mail_processing_started",
+      "actor": "mail_workflow",
+      "created_at": "2026-03-05T10:40:51.318Z",
+      "metadata": {
+        "message_id": "<MESSAGE_ID_D>",
+        "thread_id": "<THREAD_ID_D>",
+        "case_row_id": "<CASE_ROW_ID>"
+      }
+    },
+
+    {
+      "_stage": "3. the unit of work exists. The idempotency key is the message identity, so twenty concurrent runs share one task",
+      "event_id": "<EVENT_ID_03>",
+      "task_id": "<TASK_ID>",
+      "run_id": null,
+      "event_type": "task_created",
+      "actor": "mail_workflow",
+      "created_at": "2026-03-05T10:40:51.402Z",
+      "metadata": {
+        "task_type": "CUSTOMER_OPS",
+        "trigger": "mail",
+        "correlation_id": "<CORRELATION_ID>"
+      }
+    },
+
+    {
+      "_stage": "4. the agent starts. Entity extraction is deterministic and ran before the model - SO-1004 was found by a regex, not by an inference",
+      "event_id": "<EVENT_ID_04>",
+      "task_id": "<TASK_ID>",
+      "run_id": "<RUN_ID>",
+      "event_type": "agent_started",
+      "actor": "agent",
+      "created_at": "2026-03-05T10:40:51.457Z",
+      "metadata": {
+        "case_id": "<CASE_ID>",
+        "provider": "<PROVIDER>",
+        "model": "<MODEL>",
+        "runtime": "customer-ops",
+        "extracted": {
+          "orders": ["SO-1004"],
+          "customers": [],
+          "subscriptions": [],
+          "suspect_tokens": []
+        }
+      }
+    },
+
+    {
+      "_stage": "5. first tool call. Read-only by database grant, not by prompt instruction",
+      "event_id": "<EVENT_ID_05>",
+      "task_id": "<TASK_ID>",
+      "run_id": "<RUN_ID>",
+      "event_type": "tool_called",
+      "actor": "agent",
+      "created_at": "2026-03-05T10:40:52.113Z",
+      "metadata": {
+        "tool": "order_lookup",
+        "call_id": "<CALL_ID_1>",
+        "attempt": 1,
+        "arguments": {"order_id": "SO-1004"}
+      }
+    },
+
+    {
+      "_stage": "6. the result is summarised, never stored whole. output_excerpt is capped and scrubbed",
+      "event_id": "<EVENT_ID_06>",
+      "task_id": "<TASK_ID>",
+      "run_id": "<RUN_ID>",
+      "event_type": "tool_completed",
+      "actor": "agent",
+      "created_at": "2026-03-05T10:40:52.664Z",
+      "metadata": {
+        "call_id": "<CALL_ID_1>",
+        "status": "completed",
+        "attempt": 1,
+        "output_chars": 184,
+        "output_excerpt": "{\"order_id\": \"SO-1004\", \"customer_id\": \"CUST-4402\", \"status\": \"delivered\", \"total_amount\": \"149.00\", \"currency\": \"USD\", \"refunded\": false, ... [truncated]"
+      }
+    },
+
+    {
+      "_stage": "7. second tool call - the customer record, still read-only",
+      "event_id": "<EVENT_ID_07>",
+      "task_id": "<TASK_ID>",
+      "run_id": "<RUN_ID>",
+      "event_type": "tool_called",
+      "actor": "agent",
+      "created_at": "2026-03-05T10:40:52.881Z",
+      "metadata": {
+        "tool": "customer_lookup",
+        "call_id": "<CALL_ID_2>",
+        "attempt": 1,
+        "arguments": {"customer_id": "CUST-4402"}
+      }
+    },
+
+    {
+      "_stage": "8. grounded. Two facts, both traceable to a tool result",
+      "event_id": "<EVENT_ID_08>",
+      "task_id": "<TASK_ID>",
+      "run_id": "<RUN_ID>",
+      "event_type": "tool_completed",
+      "actor": "agent",
+      "created_at": "2026-03-05T10:40:53.290Z",
+      "metadata": {
+        "call_id": "<CALL_ID_2>",
+        "status": "completed",
+        "attempt": 1,
+        "output_chars": 96,
+        "output_excerpt": "{\"customer_id\": \"CUST-4402\", \"tier\": \"standard\", \"open_orders\": 1, ... [truncated]"
+      }
+    },
+
+    {
+      "_stage": "9. the deterministic policy layer classified the case. No model chose this risk level and no model chose this disposition",
+      "event_id": "<EVENT_ID_09>",
+      "task_id": "<TASK_ID>",
+      "run_id": "<RUN_ID>",
+      "event_type": "approval_requested",
+      "actor": "customer_ops",
+      "created_at": "2026-03-05T10:41:07.006Z",
+      "metadata": {
+        "approval_id": "<APPROVAL_ID>",
+        "intent": "refund_request",
+        "risk": "high",
+        "requested_action": "Refund order SO-1004",
+        "entity_type": "order",
+        "entity_id": "SO-1004",
+        "snapshot_hash": "<SHA256_OF_CANONICAL_SNAPSHOT>",
+        "expires_at": "2026-03-06T10:41:07Z"
+      }
+    },
+
+    {
+      "_stage": "10. an acknowledgement draft was created in the source thread. It promises nothing, because no outcome exists yet",
+      "event_id": "<EVENT_ID_10>",
+      "task_id": "<TASK_ID>",
+      "run_id": "<RUN_ID>",
+      "event_type": "mail_draft_created",
+      "actor": "mail_workflow",
+      "created_at": "2026-03-05T10:41:07.845Z",
+      "metadata": {
+        "message_id": "<MESSAGE_ID_D>",
+        "thread_id": "<THREAD_ID_D>",
+        "draft_id": "<DRAFT_ID_D>",
+        "draft_thread_id": "<THREAD_ID_D>",
+        "response_hash": "<SHA256_OF_DRAFT_TEXT>",
+        "reconciled": false,
+        "intent": "refund_request",
+        "risk": "high",
+        "agent_status": "awaiting_approval",
+        "latency_ms": 16641
+      }
+    },
+
+    {
+      "_stage": "11. a duplicate delivery of the same message. The task is reused and NO second draft is created",
+      "event_id": "<EVENT_ID_11>",
+      "task_id": "<TASK_ID>",
+      "run_id": "<RUN_ID>",
+      "event_type": "mail_draft_reused",
+      "actor": "mail_workflow",
+      "created_at": "2026-03-05T10:44:19.522Z",
+      "metadata": {
+        "message_id": "<MESSAGE_ID_D>",
+        "draft_id": "<DRAFT_ID_D>",
+        "reason": "existing_draft_for_response_hash",
+        "drafts_in_thread": 1,
+        "duplicate": true
+      }
+    },
+
+    {
+      "_stage": "12. a human decided. actor names the person and the channel. There is zero model involvement in this path",
+      "event_id": "<EVENT_ID_12>",
+      "task_id": "<TASK_ID>",
+      "run_id": "<RUN_ID>",
+      "event_type": "approved",
+      "actor": "operator:<OPERATOR_ID>",
+      "created_at": "2026-03-05T11:02:44.771Z",
+      "metadata": {
+        "approval_id": "<APPROVAL_ID>",
+        "decision_id": "<DECISION_ID>",
+        "transport": "cli",
+        "reason": "Damage confirmed from photos in the thread.",
+        "snapshot_hash": "<SHA256_OF_CANONICAL_SNAPSHOT>"
+      }
+    },
+
+    {
+      "_stage": "13. a second decision was attempted and refused. The refusal is a row, not a silent no-op",
+      "event_id": "<EVENT_ID_13>",
+      "task_id": "<TASK_ID>",
+      "run_id": "<RUN_ID>",
+      "event_type": "approval_duplicate_attempt",
+      "actor": "operator:<OPERATOR_ID>",
+      "created_at": "2026-03-05T11:03:02.118Z",
+      "metadata": {
+        "approval_id": "<APPROVAL_ID>",
+        "attempted": "reject",
+        "transport": "cli",
+        "current_status": "approved",
+        "existing_decision": "approve"
+      }
+    },
+
+    {
+      "_stage": "14. NOTE THE GAP: 4 minutes and 27 seconds after the decision, still nothing refunded. No queue consumed the approval. A human ran a second program under a different database login",
+      "event_id": "<EVENT_ID_14>",
+      "task_id": "<TASK_ID>",
+      "run_id": "<RUN_ID>",
+      "event_type": "write_execution_requested",
+      "actor": "executor",
+      "created_at": "2026-03-05T11:07:12.043Z",
+      "metadata": {
+        "approval_id": "<APPROVAL_ID>",
+        "execution_id": "<EXECUTION_ID>",
+        "action": "refund_order",
+        "entity_id": "SO-1004",
+        "attempt": 1,
+        "invoked_by": "operator:<OPERATOR_ID>",
+        "snapshot_hash_prefix": "<HASH_PREFIX_16>"
+      }
+    },
+
+    {
+      "_stage": "15. preconditions re-validated inside the writing transaction: approved, unexpired, hash still matching, entity still refundable, no prior success",
+      "event_id": "<EVENT_ID_15>",
+      "task_id": "<TASK_ID>",
+      "run_id": "<RUN_ID>",
+      "event_type": "write_execution_started",
+      "actor": "executor",
+      "created_at": "2026-03-05T11:07:12.088Z",
+      "metadata": {
+        "approval_id": "<APPROVAL_ID>",
+        "execution_id": "<EXECUTION_ID>",
+        "action": "refund_order"
+      }
+    },
+
+    {
+      "_stage": "16. the single business write. before and after digests make the effect auditable without storing the row itself",
+      "event_id": "<EVENT_ID_16>",
+      "task_id": "<TASK_ID>",
+      "run_id": "<RUN_ID>",
+      "event_type": "write_execution_succeeded",
+      "actor": "executor",
+      "created_at": "2026-03-05T11:07:12.331Z",
+      "metadata": {
+        "approval_id": "<APPROVAL_ID>",
+        "execution_id": "<EXECUTION_ID>",
+        "action": "refund_order",
+        "entity_id": "SO-1004",
+        "before_status": "delivered",
+        "after_status": "refunded",
+        "before_digest_prefix": "<BEFORE_DIGEST_16>",
+        "after_digest_prefix": "<AFTER_DIGEST_16>",
+        "invoked_by": "operator:<OPERATOR_ID>"
+      }
+    },
+
+    {
+      "_stage": "17. the operator is told, AFTER commit. The notification reports a fact and can start nothing",
+      "event_id": "<EVENT_ID_17>",
+      "task_id": "<TASK_ID>",
+      "run_id": "<RUN_ID>",
+      "event_type": "execution_notified",
+      "actor": "executor",
+      "created_at": "2026-03-05T11:07:13.006Z",
+      "metadata": {
+        "execution_id": "<EXECUTION_ID>",
+        "outcome": "succeeded",
+        "attempt": 1
+      }
+    }
+  ],
+
+  "_what_this_trail_proves": [
+    "The read at 10:40:51 mutated nothing: labels and unread state were identical afterwards.",
+    "Between event 9 and event 16 the case sat for 26 minutes with an authorization on file and zero business rows written. Approval is not execution.",
+    "Event 11 is a duplicate delivery that produced no second draft.",
+    "Event 13 is a second decision attempt that was refused by a unique constraint.",
+    "Event 14 names a human as invoked_by. No scheduler and no queue appears anywhere in this file.",
+    "Exactly one write_execution_succeeded exists for this approval, and exactly one business row changed.",
+    "The notification at event 17 is emitted after the commit at event 16, never before.",
+    "Nothing in metadata is a token, a credential, a connection string or a full message body."
+  ],
+
+  "_event_types_not_shown_here": {
+    "_note": "Terminal and refusal paths that this happy-ish case did not take. Each is a row, never a silent failure.",
+    "security_rejected": "an injection attempt was detected and recorded",
+    "grounding_violation": "the model asserted a fact no tool returned - the run fails and no draft is created",
+    "schema_rejected": "structured output failed validation twice",
+    "ambiguity_gated": "no usable identifier - a clarification is drafted instead of a guess",
+    "approval_expired": "the decision window closed before a human decided",
+    "approval_snapshot_mismatch": "the entity changed between authorization and decision - the approval is cancelled, not honoured",
+    "write_execution_blocked": "a precondition failed inside the transaction - nothing was written",
+    "write_execution_failed": "the attempt errored and rolled back - nothing was written",
+    "write_execution_reconciled": "a crash in the mutation window was resolved without writing twice",
+    "mail_processing_failed": "the run ended with no draft",
+    "execution_notification_failed": "the operator channel was unreachable; the notification is retried, the execution is untouched"
+  }
+}

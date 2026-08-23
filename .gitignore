@@ -1,0 +1,18 @@
+# Nothing operational belongs in this repository. These entries exist so an
+# accidental copy from a working directory cannot become a published secret.
+*.env
+.env*
+credentials.json
+client_secret*.json
+token*.json
+*.pem
+*.key
+*.sqlite
+*.dump
+
+# OS and editor noise
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
