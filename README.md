@@ -34,7 +34,7 @@ They are absent from the agent's interface.
 
 | Incoming email | What happens | Human involvement |
 |---|---|---|
-| "Where is my order SO-1001?" | Looks up the real record, drafts an answer in-thread | Reads the draft, presses Send |
+| "Where is my order SO-1001?" | Looks up the order record, drafts an answer in-thread | Reads the draft, presses Send |
 | An email containing hidden instructions to add a `Bcc:` and forward the thread | Drafts a normal reply. Recipient unchanged, attacker address in no header and no body | Reads the draft, presses Send |
 | "My order is late" — no order number given | Answers with a clarification request using **zero model calls** | Reads the draft, presses Send |
 | "I want a refund" | Stops at `awaiting_approval`. Nothing is written | Approves — then separately runs the executor |
@@ -71,8 +71,8 @@ either is replaced:
 | Inbound channel | Email | Helpdesk, ticketing, chat, web form, internal queue |
 | System of record | Order database | CRM, ERP, billing, order management, internal API |
 | Approval channel | Chat + CLI | Any channel; the approval core is transport-agnostic |
-| Write operations | Refund, cancellation | Any operation — each is one narrow database function plus one grant plus one privilege test |
-| Model provider | Configurable | Any provider. The deterministic layers do not vary with the model |
+| Write operations | Refund, cancellation | Each state-changing operation is modeled as a narrow explicit capability with separate authorization and negative tests |
+| Model provider | Configurable | Compatible model providers can be swapped without changing the deterministic safety layers |
 
 Adding a **write** capability is deliberately the most expensive change in the system. That
 is the point.
@@ -102,15 +102,17 @@ each of a kind a demo would never surface: [docs/CASE_STUDY.md](docs/CASE_STUDY.
 |---|---|---|---|
 | **A** | Self-Hosted AI Agent Setup | You want your own agent running on your own infrastructure, operated properly | **from $750** |
 | **B** | Production AI Agent Integration | You have a POC that cannot pass security review | **from $2,000** |
-| **C** | Human-Supervised Business Agent | You want to automate work that touches money, safely | **Custom scoped** |
+| **C** | Human-Supervised Business Agent | You want to automate work that changes business state, safely | **Custom scoped** |
 
-Every engagement opens with paid discovery, and the tests are part of the deliverable rather
-than a phase that gets cut. Scope, deliverables and exclusions:
+Larger integrations begin with a short paid discovery. Small, well-defined setup work can
+usually be scoped directly. In every case the tests are part of the deliverable rather than a
+phase that gets cut. Scope, deliverables and exclusions:
 [docs/SERVICE_OFFERINGS.md](docs/SERVICE_OFFERINGS.md)
 
-**To start a conversation:** open an issue on this repository, or reach out through the
-profile linked here. A 30-minute call is enough to tell you whether your use case fits this
-architecture — including if the honest answer is that it does not.
+**To start a conversation:** contact me through the profile linked here. A 30-minute call is
+enough to tell you whether your use case fits this architecture — including if the honest
+answer is that it does not. Please do not put system details, credentials or anything
+confidential in a public issue on this repository.
 
 ---
 
@@ -140,7 +142,7 @@ mailbox owned by the author.
 - Model-dependent behaviour (intent classification, injection refusal) is reproducible in
   shape, not byte for byte. The deterministic controls are what the test suite pins.
 
-The implementation source is private. Code walkthroughs are available under NDA during an
-engagement conversation.
+The production implementation is private. A private technical walkthrough is available for
+qualified engagements.
 
 *All identifiers in this repository are synthetic.*

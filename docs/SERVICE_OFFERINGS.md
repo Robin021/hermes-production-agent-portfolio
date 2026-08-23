@@ -7,14 +7,15 @@ client can stop after any of them.
 |---|---|---|---|
 | **A** | Self-Hosted AI Agent Setup | Founder or small engineering team who wants their own agent infrastructure | **from $750** |
 | **B** | Production AI Agent Integration | Engineering lead with a POC that cannot pass security review | **from $2,000** |
-| **C** | Human-Supervised Business Agent | Ops or support lead automating work that touches money | **Custom scoped engagement** |
+| **C** | Human-Supervised Business Agent | Ops or support lead automating work that changes business state | **Custom scoped engagement** |
 
 Starting prices are entry points, not rate cards. Final scope and price come out of
 discovery — nothing is quoted firm from a job post.
 
 Four rules apply to all three:
 
-- **Paid discovery first.** Fixed price, credited against the build.
+- **Larger integrations begin with a short paid discovery**, fixed price and credited against
+  the build. Small, well-defined setup work can usually be scoped directly.
 - **The tests are part of the deliverable.** Not an add-on, not the phase that gets cut when
   the timeline slips.
 - **Handover is a paid phase**, because it is real work, and the decision records outlive the
@@ -144,7 +145,7 @@ worth buying.
 > update the order. Legal said no. Security said no. And they are both right, because right now
 > approving something and doing it are the same button."
 
-This buyer needs automation that touches money or customer state, and needs it to survive an
+This buyer needs automation that changes business state, and needs it to survive an
 audit. What they are really buying is **separation of duties that is provable per action**.
 
 ### Deliverables

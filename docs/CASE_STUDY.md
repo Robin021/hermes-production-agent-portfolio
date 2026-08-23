@@ -119,11 +119,11 @@ re-derive it from the live catalog on every regression run.
 
 ## 4. Evidence
 
-### 4.1 Live mailbox run — five scenarios against a real mail provider
+### 4.1 Live customer-support email workflow — five scenarios against a real mail provider
 
-Real OAuth client, real mailbox, real model, read and compose scopes only. Test *data* is
-fully synthetic: messages are sent from a test domain owned by the author to a dedicated
-test label. No real customer data is involved anywhere.
+A real OAuth client, a live mailbox, a real model, read and compose scopes only. The test
+*data* is fully synthetic: messages are sent from a test domain owned by the author to a
+dedicated test label. No customer data is involved anywhere.
 
 | Case | Scenario | Intent detected | Risk | Outcome | Drafts |
 |---|---|---|---|---|---|
@@ -185,7 +185,7 @@ results**, with a hard-coded 60-second cooldown and no configuration surface. Th
 was classifying *legitimate* `not_found` lookups — a customer asking about an order number
 that genuinely does not exist — as transport errors.
 
-**Consequence.** Three real customers asking about three unknown order numbers would
+**Consequence.** Three customers asking about three unknown order numbers would
 **disable every tool the agent had, for a full minute**, silently. The log line for a tripped
 breaker is indistinguishable from an ordinary warning. In production this would present as
 "the AI is unreliable in the afternoons" and would be nearly impossible to diagnose from
@@ -256,9 +256,9 @@ anyway**, because it only checked whether response text existed, not whether the
 been accepted.
 
 **Consequence.** The exact failure the whole project exists to prevent: a confident,
-fabricated order status, correctly addressed to a real customer, sitting in the outbox as a
-ready-to-send draft. Draft-only containment is what made this a bug report instead of an
-incident — but a human under time pressure approves plausible-looking drafts.
+fabricated order status, correctly addressed to the person who wrote in, sitting in the
+mailbox as a ready-to-send draft. Draft-only containment is what made this a bug report
+instead of an incident — but a human under time pressure approves plausible-looking drafts.
 
 **Fix.** Drafting now requires the grounding verdict and the draft verdict to be **exactly
 `True`** and the agent status to be terminal-valid. Critically, it is **fail-closed on a
@@ -314,9 +314,10 @@ Credibility is the deliverable, so the caveats sit in the same document as the r
 
 ## 8. In one paragraph
 
-An LLM agent reads real customer email, looks up real order data through six typed
-read-only tools, and writes a reply — as a **draft**, in the original thread, addressed to
-exactly the person who wrote in, with no CC and no BCC. High-risk requests stop at a human
+An LLM agent reads a live customer-support inbox, looks up system-of-record order data
+through six typed read-only tools, and writes a reply — as a **draft**, in the original
+thread, addressed to exactly the person who wrote in, with no CC and no BCC. High-risk
+requests stop at a human
 and cannot proceed without a separately-credentialed operator running the executor by hand.
 Prompt injection cannot move the recipient by one character. Reading changes nothing.
 Duplicates return the original draft instead of a second one. Every privilege claim is

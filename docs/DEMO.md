@@ -15,8 +15,8 @@ The opening frame is the headline: **2,627 assertions · 0 failures · 0 emails 
 > Every team wants an AI agent on their support inbox. Most never ship one, and it is almost
 > always the same question that stops them: *what happens when it emails a customer something
 > wrong?* "We told it not to" is not an answer, because you cannot test it. So here is the
-> version where you can — a real agent, on a real mailbox, and I am going to try to make it
-> misbehave on camera.
+> version where you can — a working agent, on a live customer-support email workflow, and I am
+> going to try to make it misbehave on camera.
 
 The demo is not selling an agent. It is answering the objection that blocks the purchase.
 
@@ -28,7 +28,7 @@ The demo is not selling an agent. It is answering the objection that blocks the 
 mail-cli process --message-id <MESSAGE_ID_A>
 ```
 
-The runtime reads one named message, looks up the real order through a typed read-only tool,
+The runtime reads one named message, looks up the order record through a typed read-only tool,
 and writes a reply **draft** in the original thread.
 
 | Shown | Proves |
@@ -113,7 +113,7 @@ Worked examples: [examples/synthetic-approval.md](../examples/synthetic-approval
 
 ## 3:00 — Case E: duplicates
 
-Real inboxes redeliver. The first email is reprocessed:
+Live mailboxes redeliver. The first email is reprocessed:
 
 ```bash
 mail-cli process --message-id <MESSAGE_ID_A>   # again
@@ -155,7 +155,8 @@ before it becomes their incident.
 ## 4:00 — Close
 
 > That is an agent with a blast radius you can measure. If you want LLM automation touching
-> real customers and something keeps stopping you — that objection is what I build against.
+> customer communication and something keeps stopping you — that objection is what I build
+> against.
 
 ---
 
@@ -205,12 +206,12 @@ The one-line rule:
 
 | Question | Answer |
 |---|---|
-| "Is this a real mailbox?" | Yes. Real OAuth client, real model, real API. Test *data* is synthetic — a test domain owned by the author, no customer data anywhere. The mailbox is not a clean-room account, and that is stated rather than glossed. |
+| "Is this a live mailbox?" | Yes — a live customer-support email workflow: a real OAuth client, a real model, a real provider API. The test *data* is synthetic, sent from a test domain owned by the author; no customer data is involved anywhere. The mailbox is not a clean-room account, and that is stated rather than glossed. |
 | "Could the token send if the code changed?" | Yes, and it is said on camera. The guard fails at import, and 440 structural assertions would go red. That is the boundary that can be proven. |
 | "What if the model has a bad day?" | Then a *draft* is wrong and a human does not send it. The deterministic layers — policy, envelope derivation, idempotency, privileges — do not vary with the model. |
 | "Does this scale?" | This is a single-host reference system, deliberately. The patterns transfer; the deployment topology would be sized to real load. |
 | "Why draft-only instead of auto-send?" | Because auto-send is the feature that makes the objection true. Once draft-only is trusted in production, narrowing to auto-send for specific low-risk intents is a scoped follow-on with its own evidence. |
-| "Can I see the code?" | The implementation repository is private. Code walkthroughs, decision records and the test suite are available under NDA during an engagement conversation. |
+| "Can I see the code?" | The production implementation is private. A private technical walkthrough — decision records and the test suite included — is available for qualified engagements. |
 
 ---
 

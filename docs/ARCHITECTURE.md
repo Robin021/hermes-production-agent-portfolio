@@ -8,10 +8,10 @@ stands, and the reasoning behind each boundary.
 ## 1. What the system is
 
 A self-hosted, human-supervised LLM agent platform that handles inbound customer email.
-It reads a message, retrieves the real business record behind it, decides an outcome from
-measured evidence, and produces a **reply draft**. Anything that would cost money stops and
-waits for a human — and the human decision **still does not perform the write**. A separate,
-separately-credentialed operator action does.
+It reads a message, retrieves the system-of-record data behind it, decides an outcome from
+measured evidence, and produces a **reply draft**. Anything that changes business state stops
+and waits for a human — and the human decision **still does not perform the write**. A
+separate, separately-credentialed operator action does.
 
 The design centre is a single sentence:
 
