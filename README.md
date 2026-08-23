@@ -1,25 +1,34 @@
 # Human-Supervised AI Agent for Customer Operations
 
-**An LLM agent that handles real customer email — and cannot send one.**
+**An AI customer-support agent that can draft the reply — but cannot send it.**
 
-It reads the message, looks up the real order, and writes a **reply draft** in the original
-thread, addressed to exactly the person who wrote in. A human presses Send. Always.
+It reads a live support message, looks up the relevant order record, and writes a
+**reply draft** in the original thread, addressed to exactly the person who wrote in.
+A human reviews the draft and decides whether to send it.
 
-Anything that costs money — a refund, a cancellation — stops and waits for a human. And the
-human approving it **still does not perform the write**.
+Anything that changes business state — a refund, an order cancellation, a subscription
+cancellation — stops and waits for a human. And approving the action **still does not
+perform the write**.
 
 ---
 
 ## The problem
 
-Every support team wants an AI agent on the inbox. Most projects die on one question:
+Putting an AI agent on a support inbox is easy.
+
+The question that stops most production deployments is harder:
 
 > *What happens when it emails a customer something wrong?*
 
-"We told it not to" is not an answer, because it cannot be tested. A system prompt is a
-request written in the same language an attacker uses. This system answers structurally:
-the agent never holds the ability to send mail, move money, or change an order. Those
-actions are not blocked at runtime — they are **absent from what the agent can express**.
+"We told it not to" is not an engineering control.
+
+A system prompt is written in the same language an attacker can put in an email.
+This system takes a different approach: the agent never receives the capability to send
+mail or directly change business state.
+
+Those actions are not merely discouraged.
+
+They are absent from the agent's interface.
 
 ## What the demo actually does
 
