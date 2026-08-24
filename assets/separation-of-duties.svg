@@ -112,6 +112,6 @@
   <rect x="712" y="626" width="640" height="112" rx="12" fill="#eef6ef" stroke="#2e8b57" stroke-width="2"/>
   <text x="736" y="656" font-size="15" font-weight="700" fill="#1d5c39" text-anchor="start">Why the schema owner is not a runtime credential</text>
   <text x="736" y="682" font-size="13" fill="#3f6b52" text-anchor="start">Owner rights exist for migrations and maintenance. No runtime process</text>
-  <text x="736" y="702" font-size="13" fill="#3f6b52" text-anchor="start">holds them, and a restore drill re-runs the whole privilege matrix against</text>
-  <text x="736" y="722" font-size="13" fill="#3f6b52" text-anchor="start">the restored copy &#8212; because a restore once quietly widened them.</text>
+  <text x="736" y="702" font-size="13" fill="#3f6b52" text-anchor="start">holds them, and a restore drill audits the recovered copy&#8217;s own grants</text>
+  <text x="736" y="722" font-size="13" fill="#3f6b52" text-anchor="start">&#8212; because a restore once quietly widened them.</text>
 </svg>

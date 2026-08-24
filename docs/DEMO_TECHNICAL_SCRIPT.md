@@ -35,7 +35,7 @@ role names replaced by their function (*mail runtime*, *approval runtime*, *exec
 | T14 | 2:52 | 3:04 | Idempotency | Twenty concurrent passes &#8594; still exactly one draft; `48 passed, 0 failed` | A unique index, not a retry counter |
 | T15 | 3:04 | 3:20 | Least privilege | `assets/separation-of-duties.png` &#183; `327 passed, 0 failed` &#183; 7 principals &#183; 42 negative probes | Real SQL under real logins. Statements that fail if the claim is false |
 | T16 | 3:20 | 3:34 | Opposed roles | Mail runtime can open an approval and cannot decide one; approval runtime can decide and cannot open | Nobody can file a request and then approve it &#8212; enforced by grants |
-| T17 | 3:34 | 3:48 | The privilege bug | Grant replay skipped grants inside `DO $$` blocks; PostgreSQL grants EXECUTE to PUBLIC by default | Fix: explicit revoke plus a parser rewrite. The restore drill re-runs all 327 assertions against the restored copy |
+| T17 | 3:34 | 3:48 | The privilege bug | Grant replay skipped grants inside `DO $$` blocks; PostgreSQL grants EXECUTE to PUBLIC by default | Fix: explicit revoke plus a parser rewrite. The restore drill now audits the restored copy&#8217;s grants &#8212; 111 catalog assertions, distinct from the 327-assertion live matrix at T15 |
 | T18 | 3:48 | 4:00 | Honest boundary | *No draft-only scope exists. The token can technically send. No code path can express it, and 440 structural assertions plus an import guard keep it that way.* | The claim and its limit, side by side |
 | T19 | 4:00 | 4:12 | Final card | The five closing lines | |
 
@@ -125,8 +125,9 @@ Total run time: 252.0 s.
 > **3:34** Which found a genuine bug. Grant replay after a restore scanned migration text and
 > silently skipped grants written inside procedural blocks &#8212; and PostgreSQL grants EXECUTE to
 > PUBLIC by default. So a restored database briefly let any login call the executor functions.
-> A probe caught it; no code review would have. The restore drill now re-runs all three hundred
-> and twenty-seven privilege assertions against the restored copy.
+> A probe caught it; no code review would have. Note what could not have caught it: the live
+> matrix you just saw passes either way, because it never touches the restored copy. So the
+> restore drill now audits the recovered database&#8217;s own grants, separately.
 >
 > **3:48** One honest limit. The provider has no draft-only scope, so the compose token is
 > technically capable of sending. What I have proven is that no code path here can express a

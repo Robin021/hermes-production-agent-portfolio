@@ -290,12 +290,21 @@ rather than blurred.
 | Container privilege | Runtime executes as an unprivileged uid; the install tree is read-only to it |
 | Secrets | Never in version control; delivered out of band; mode-600 files; env-only injection |
 | Patching | Unattended security updates; pinned image tags with a drift monitor rather than silent upgrades |
-| Backups | Two scheduled backups plus a **weekly automated restore verification** |
+| Backups | Two scheduled backups, a **weekly automated restore verification**, and a separate **scripted privilege restore drill** |
 
-The restore verification is not decorative. It restores into a scratch database and then runs
-the **full 327-assertion privilege matrix against the restored copy** — because a restore that
-silently widens grants is a security incident that looks like a successful recovery. It found
-one. See case study finding 5.2.
+Restore verification is not decorative, and it runs at two levels because a dump and its
+privilege model are not the same artifact.
+
+| Check | What it does | Scale |
+|---|---|---|
+| Weekly automated restore verification | Restores the dump into a scratch database and compares row counts table by table, then drops it | 6 tables |
+| Scripted privilege restore drill | Restores into a scratch database and audits the **recovered copy's grants** — privilege matrix in catalog-only mode, with a negative control requiring the un-repaired restore to fail | **111 assertions** on the restored copy |
+| Live runtime privilege matrix | Executes **real statements under real logins** against the running system, asserting that forbidden ones are refused | **327 assertions · 7 principals · 42 negative probes** |
+
+The distinction matters: a restore that silently widens grants is a security incident that
+looks like a successful recovery, and the live matrix passes either way because it never
+touches the restored copy. That is why the drill exists, and it found one. See case study
+finding 5.2.
 
 ## Residual risks, stated plainly
 

@@ -234,10 +234,17 @@ restored one.
 every definer function, and the grant-replay logic rewritten to parse procedural blocks
 instead of scanning for statement text.
 
-**Mechanical proof.** A restore drill that restores into a scratch database and then runs the
-**full privilege matrix against the restored copy** — the same 327 assertions, including the
-42 negative probes. A restore that comes back with a wider grant set now fails the drill
-rather than passing quietly.
+**Mechanical proof.** A restore drill that restores the dump into a scratch database and then
+audits the **recovered copy's grants** — the privilege matrix in catalog-only mode, **111
+assertions** against the restored database, including a negative control that requires the
+un-repaired restore to *fail*. A restore that comes back with a wider grant set now fails the
+drill rather than passing quietly.
+
+This is deliberately a *different* test from the **live runtime privilege matrix** — 327
+assertions across 7 principals including 42 negative probes, executed as real statements under
+real logins against the running system. The live matrix proves the running privilege model;
+the drill proves the **recovered** one. Conflating the two is what hid the defect above in the
+first place: the live run passes either way.
 
 **The transferable lesson.** A backup you have never restored is not a backup. A restore you
 have never *audited* is worse — it is a backup that reintroduces defects you already fixed.

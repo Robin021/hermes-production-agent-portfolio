@@ -233,8 +233,8 @@ const scenes = [
       "So a restored database briefly let any login call the",
       "executor functions directly.",
       "",
-      "$ restore drill: re-run all 327 privilege assertions",
-      "  against the restored copy   ->   327 passed, 0 failed"
+      "$ restore drill: audit the restored copy's own grants",
+      "  catalog privilege matrix   ->   111 passed, 0 failed"
     ],
     foot: "fix: explicit revoke from PUBLIC, plus a parser that reads procedural blocks",
     caption: "The bug worth showing: a restored database granted EXECUTE to PUBLIC. Found by a probe, not a review."
